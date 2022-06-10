@@ -148,7 +148,7 @@ WHERE referee_id <> 2 OR referee_id IS NULL;
 
 
 ===========================================
-Problem 3: Customers Who Never Order (Easy)
+Problem 4: Customers Who Never Order (Easy)
 ===========================================
 
 Write an SQL query to report all customers who never order anything.
@@ -235,3 +235,81 @@ SELECT
 employee_id, IF(employee_id % 2 !=0 AND name NOT LIKE 'M%',salary,0) AS bonus 
 FROM Employees
 ORDER BY employee_id;
+
+
+
+============================
+Problem 6: Swap Salary (Easy)
+=============================
+
+Write an SQL query to swap all 'f' and 'm' values (i.e., change all 'f' values to 'm' and vice versa) with a single update statement and
+no intermediate temporary tables.
+
+Note that you must write a single update statement, do not write any select statement for this problem.
+
+
+Input: 
+Salary table:
++----+------+-----+--------+
+| id | name | sex | salary |
++----+------+-----+--------+
+| 1  | A    | m   | 2500   |
+| 2  | B    | f   | 1500   |
+| 3  | C    | m   | 5500   |
+| 4  | D    | f   | 500    |
++----+------+-----+--------+
+Output: 
++----+------+-----+--------+
+| id | name | sex | salary |
++----+------+-----+--------+
+| 1  | A    | f   | 2500   |
+| 2  | B    | m   | 1500   |
+| 3  | C    | f   | 5500   |
+| 4  | D    | m   | 500    |
++----+------+-----+--------+
+Explanation: 
+(1, A) and (3, C) were changed from 'm' to 'f'.
+(2, B) and (4, D) were changed from 'f' to 'm'.
+
+
+Solution
+========
+UPDATE Salary
+SET sex = IF(sex = 'm','f','m')
+
+
+==============================================
+Problem 7:  Delete Duplicate Emails (Easy)
+===============================================
+
+Write an SQL query to delete all the duplicate emails, keeping only one unique email with the smallest id. 
+Note that you are supposed to write a DELETE statement and not a SELECT one.
+
+After running your script, the answer shown is the Person table. The driver will first compile and run your piece of code and then show the Person table. 
+The final order of the Person table does not matter.
+
+Input: 
+Person table:
++----+------------------+
+| id | email            |
++----+------------------+
+| 1  | john@example.com |
+| 2  | bob@example.com  |
+| 3  | john@example.com |
++----+------------------+
+Output: 
++----+------------------+
+| id | email            |
++----+------------------+
+| 1  | john@example.com |
+| 2  | bob@example.com  |
++----+------------------+
+Explanation: john@example.com is repeated two times. We keep the row with the smallest Id = 1.
+
+
+Solution
+=========
+DELETE p1 
+FROM Person p1, Person p2
+WHERE
+    p1.email = p2.email AND p1.id>p2.id
