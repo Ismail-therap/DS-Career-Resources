@@ -484,3 +484,105 @@ FROM
     Patients
 WHERE 
     conditions LIKE 'DIAB1%' OR conditions LIKE '% DIAB1%';
+    
+    
+    
+=====================================================
+Problem 11: Employees With Missing Information (Easy)
+=====================================================
+
+
+Write an SQL query to report the IDs of all the employees with missing information. The information of an employee is missing if:
+
+The employee's name is missing, or
+The employee's salary is missing.
+Return the result table ordered by employee_id in ascending order.
+
+
+Input: 
+Employees table:
++-------------+----------+
+| employee_id | name     |
++-------------+----------+
+| 2           | Crew     |
+| 4           | Haven    |
+| 5           | Kristian |
++-------------+----------+
+Salaries table:
++-------------+--------+
+| employee_id | salary |
++-------------+--------+
+| 5           | 76071  |
+| 1           | 22517  |
+| 4           | 63539  |
++-------------+--------+
+Output: 
++-------------+
+| employee_id |
++-------------+
+| 1           |
+| 2           |
++-------------+
+Explanation: 
+Employees 1, 2, 4, and 5 are working at this company.
+The name of employee 1 is missing.
+The salary of employee 2 is missing.
+
+
+
+
+Solution
+=========
+
+# Write your MySQL query statement below
+SELECT employee_id
+FROM Employees 
+WHERE employee_id NOT IN (SELECT employee_id FROM Salaries)
+UNION
+SELECT employee_id
+FROM Salaries
+WHERE employee_id NOT IN (SELECT employee_id FROM Employees)
+ORDER BY employee_id ASC;
+
+
+
+===============================================
+Problem 12: Rearrange Products Table (Easy)
+===============================================
+
+Input: 
+Products table:
++------------+--------+--------+--------+
+| product_id | store1 | store2 | store3 |
++------------+--------+--------+--------+
+| 0          | 95     | 100    | 105    |
+| 1          | 70     | null   | 80     |
++------------+--------+--------+--------+
+Output: 
++------------+--------+-------+
+| product_id | store  | price |
++------------+--------+-------+
+| 0          | store1 | 95    |
+| 0          | store2 | 100   |
+| 0          | store3 | 105   |
+| 1          | store1 | 70    |
+| 1          | store3 | 80    |
++------------+--------+-------+
+
+
+
+Solution
+==========
+
+select product_id , ( 'store1' ) as store , store1 as price
+    from Products where store1 is NOT NULL
+    
+UNION
+
+select product_id , ( 'store2' ) as store , store2 as price
+    from Products where store2 is NOT NULL
+    
+UNION
+
+select product_id , ( 'store3' ) as store , store3 as price
+    from Products where store3 is NOT NULL;
